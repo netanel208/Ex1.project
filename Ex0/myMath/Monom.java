@@ -9,11 +9,108 @@ package myMath;
  */
 public class Monom implements function{
 
+
+
+
+	public Monom(String str){
+
+		double a=0; // coefficient
+		int b=0; //  power
+
+		str =str.toLowerCase();
+		if ( str.contains("x") && str.contains("^")) { 
+			int i = str.indexOf('x');
+			if ( i==0) { // no coefficient for x like "x^b"
+				a =1.0;
+				try {
+					b =Integer.parseInt(str.substring(2, str.length()));
+				}
+				catch(Exception e) {
+					System.out.println("invalid input ");
+				}
+			}
+			else {
+				if ( str.contains("-") && str.indexOf('x')==1) { // for "-x^b" 
+					if (str.contains("-"))
+						a= -1.0;
+
+					try {
+						b =Integer.parseInt(str.substring(3, str.length()));
+					}
+
+					catch(Exception e) {
+						System.out.println("invalid input ");
+					}
+				}
+				else { // for all cases ax^b
+					try {
+						a =Double.parseDouble(str.substring(0, i));
+					}
+					catch(Exception e) {
+						System.out.println("invalid input ");
+					}
+					try {
+						b =Integer.parseInt(str.substring(i+2, str.length()));
+					}
+
+					catch(Exception e) {
+						System.out.println("invalid input ");
+					}
+
+				}
+			}
+		}
+
+		else {
+
+
+			if ( !str.contains("^") && str.contains("x")) { // for  expressions like "3x" or "-x"
+				if  (str.contains("-") && str.indexOf('x')==1) { // for "-x" or
+					a= -1.0;
+					b= 1;
+				}
+
+				else if (str.indexOf('x')==0 ) { // for "x"
+					a= 1.0;
+					b=1;
+
+				}
+				else { // for "8x"
+					int i = str.indexOf('x');
+					try {
+						a =Double.parseDouble(str.substring(0, i));
+					}
+					catch(Exception e) {
+						System.out.println("invalid input ");
+					}
+
+					b= 1;
+				}
+			}
+
+			if (!str.contains("x") && !str.contains("^")) { // for free organ like "4"
+				try {
+					a =Double.parseDouble(str);
+
+				}
+				catch(Exception e) {
+					System.out.println("invalid input ");
+				}
+				b =0;
+			}
+		}
+
+		this.set_coefficient(a);
+		this.set_power(b);
+
+	}
+
 	/**
 	 * The constructor of the class, which receives two parameters: coefficient and power.
 	 * @param a  should be non negativ integer
 	 * @param b  real number
 	 */
+
 	public Monom(double a, int b){
 		if(b >= 0)
 		{
@@ -111,7 +208,7 @@ public class Monom implements function{
 	{this._power = p;}
 
 	public String toString() {
-		return this._coefficient+"*"+"x^"+this._power;
+		return this._coefficient+"x^"+this._power;
 	}
 
 

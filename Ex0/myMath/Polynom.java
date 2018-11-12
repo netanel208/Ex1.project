@@ -43,45 +43,17 @@ public class Polynom implements Polynom_able{
 	 *  sorting and ordering of the data structure is carried out by the Comperator variable.
 	 *  @param polynom      the string that the function need to convert to Polynom
 	 */
-	public Polynom(String polynom)
-	{
+	
+	
+	public Polynom (String str) { 
 		this();
-		boolean haveError = false;
-		String[] p = polynom.split("\\+");
-		for(int i=0 ; i<p.length ; i++)
-		{
-			String coefficient = "";
-			String power = "";
-			double coeffi = 0;
-			int powe = 0;
-			if(IsItTrueExpression(p[i]))
-			{
-				int indexOfAsterisk = p[i].indexOf('*');
-				for(int j=0 ; j<indexOfAsterisk ; j++)
-				{
-					coefficient += p[i].charAt(j);
-				}
-				for(int j=indexOfAsterisk+3 ; j<p[i].length() ; j++)
-				{
-					power += p[i].charAt(j);
-				}
-				coeffi = Double.parseDouble(coefficient);
-				powe = Integer.parseInt(power);
-				Monom m = new Monom(coeffi,powe); 
-				this.add(m);
-			}
-			else
-			{
-				Error();
-				haveError = true;
-				this.MonomsCollection.clear();
-				break;
-			}
-		}
-		if(!haveError)
-		{
-			this.MonomsCollection.sort(cmByPower);
-			DeleteZeroMonoms();                    //delete : 0*x^b
+		str= str.replace("-", "+-");
+		String [] subStr = str.split("\\+"); // split the string by "+" or "-"
+		for (int i = 0; i < subStr.length; i++) {
+			if (!subStr[i].equals("")) 
+			this.add(new Monom(subStr[i]));
+
+
 		}
 	}
 
